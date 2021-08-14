@@ -40,7 +40,7 @@ var providentpali = (function (exports) {
         's':'s','b':'b','y':'y','g':'g','d':'d','h':'h','m':'m','l':'l','v':'v','r':'r','n':'n',
         'kh':'K', 'gh':'G', 'jh':'J', 'ch':'C' ,'ṭh':'W', 'ḍh':'Q', 'th':'T', 'dh':'D', 'ph':'P', 'bh':'B',
         'kk':'kXk', 'kkh':'kXK',    'gg':'gXg', 'ggh':'gXG',
-        'tt':'tXT', 'tth':'tXT',    'ṭṭ':'VXV', 'ṭṭh':'VXW',
+        'tt':'tXt', 'tth':'tXT',    'ṭṭ':'VXV', 'ṭṭh':'VXW',
         'pp':'pXp', 'pph':'pXP',    'bb':'bXb', 'bbh':'bXB',
         'jj':'jXj', 'jjh':'jXJ',    'cc':'cXc', 'cch':'cXC',
         'll':'lXl', 'mm':'mXm',     'nn':'nXn', 'ññ':'YXY',
@@ -177,7 +177,6 @@ var providentpali = (function (exports) {
                     if (!c) {
                         return out+'!2'+p.substr(i);
                     } else {
-                        if (needvowel) out+='a';
                         out+=c;
                         needvowel=true;
                         i++;
