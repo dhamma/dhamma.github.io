@@ -1,4 +1,1 @@
-dhamma.github.io
-================
-
-official website for Pali Tipitaka Search Engine
+## Frontpage for dhamma.github.io
