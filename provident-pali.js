@@ -1,8 +1,12 @@
 var providentpali = (function (exports) {
     'use strict';
 
+    const isRomanized=str=>{
+        return (!!str.match(romanized_charset));
+    };
+
     const romanized_charset=/([aāiīuūenoṃcvkbdtphḍṭñṅṇsjgymrlḷ]+)/i;
-    const syllablify=str=>{
+    const breakIASTSyllable=str=>{
         str=str.toLowerCase();
         const words=str.split(romanized_charset);
         return words.map(w=>{
@@ -23,11 +27,6 @@ var providentpali = (function (exports) {
         )
         
     };
-
-    const isRomanized=str=>{
-        return (!!str.match(romanized_charset));
-    };
-
     const Vowels={
         '':'',
     'a':'','ā':'A','i':'I','ī':'II','u':'U','ū':'UU','e':'E','o':'O'
@@ -36,65 +35,65 @@ var providentpali = (function (exports) {
         'a':'a','ā':'aA','i':'i','ī':'iI','u':'u','ū':'uU','o':'o','e':'e',
     };
     const i2p={
-        'k':'k','t':'t','ñ':'Y','ṅ':'N','ṇ':'N','ḍ':'F','ṭ':'V','p':'p','c':'c','j':'j',
+        'k':'k','t':'t','ñ':'Y','ṅ':'N','ṇ':'N','ḍ':'F','ṭ':'W','p':'p','c':'c','j':'j',
         's':'s','b':'b','y':'y','g':'g','d':'d','h':'h','m':'m','l':'l','v':'v','r':'r','n':'n',
-        'kh':'K', 'gh':'G', 'jh':'J', 'ch':'C' ,'ṭh':'W', 'ḍh':'Q', 'th':'T', 'dh':'D', 'ph':'P', 'bh':'B',
-        'kk':'kXk', 'kkh':'kXK',    'gg':'gXg', 'ggh':'gXG',
-        'tt':'tXt', 'tth':'tXT',    'ṭṭ':'VXV', 'ṭṭh':'VXW',
-        'pp':'pXp', 'pph':'pXP',    'bb':'bXb', 'bbh':'bXB',
-        'jj':'jXj', 'jjh':'jXJ',    'cc':'cXc', 'cch':'cXC',
-        'll':'lXl', 'mm':'mXm',     'nn':'nXn', 'ññ':'YXY',
-        'dd':'dXd', 'ddh':'dXD',    'ḍḍ':'FXF', 'ḍḍh':'FXQ',
-        'ss':'sXs', 'yy':'yXy',     
+        'kh':'K', 'gh':'G', 'jh':'J', 'ch':'C' ,'ṭh':'X', 'ḍh':'Q', 'th':'T', 'dh':'D', 'ph':'P', 'bh':'B',
+        'kk':'kVk', 'kkh':'kVK',    'gg':'gVg', 'ggh':'gVG',
+        'tt':'tVt', 'tth':'tVT',    'ṭṭ':'WVW', 'ṭṭh':'WVX',
+        'pp':'pVp', 'pph':'pVP',    'bb':'bVb', 'bbh':'bVB',
+        'jj':'jVj', 'jjh':'jVJ',    'cc':'cVc', 'cch':'cVC',
+        'll':'lVl', 'mm':'mVm',     'nn':'nVn', 'ññ':'YVY',
+        'dd':'dVd', 'ddh':'dVD',    'ḍḍ':'FVF', 'ḍḍh':'FVQ',
+        'ss':'sVs', 'yy':'yVy',     'ṇṇ':'NVN', 
 
-        'ṅgh':'NXG','ṅg':'NXg','ṅkh':'NXK','ṅk':'NXk', 'ṅkhy':'NXKXy',
-        'dr':'dXr','dv':'dXv','ndr':'nXdXr',
+        'ṅgh':'NVG','ṅg':'NVg','ṅkh':'NVK','ṅk':'NVk', 'ṅkhy':'NVKVy',
+        'dr':'dVr','dv':'dVv','ndr':'nVdVr',
 
-        'br':'bXr',    'khv':'KXv',    'hm':'hXm',    'ly':'lXy',
-        'mbh':'mXB','mh':'mXh','mp':'mXp','mb':'mXb',
-        'nd':'nXd','ndh':'nXD','ṇṭh':'NXW',
-        'ñc':'YXc','ñj':'YXj','ñjh':'YXJ',
-        'ṇṭ':'NXV','nt':'nXt','ṇḍ':'NXF',
-        'sv':'sXv','sm':'sXm',
-        'tv':'tXv',
+        'br':'bVr',    'khv':'KVv',    'hm':'hVm',    'ly':'lVy',
+        'mbh':'mVB','mh':'mVh','mp':'mVp','mb':'mVb',
+        'nd':'nVd','ndh':'nVD','ṇṭh':'NVX',
+        'ñc':'YVc','ñj':'YVj','ñjh':'YVJ',
+        'ṇṭ':'NVV','nt':'nVt','ṇḍ':'NVF',
+        'sv':'sVv','sm':'sVm',
+        'tv':'tVv',
 
         //not in font ligature
-        'ḷh':'LXh',
-        'nth':'nXT',
-        'yh':'yXh',
-        'ly':'lXy',
-        'tr':'tXr',
-        'mph':'mXP',
-        'nh':'nXh',
-        'ñch':'YXC',
-        'vh':'vXh',
-        'ṇṭ':'NXV',
-        'nv':'nXv',
-        'ky':'kXy',
-        'gy':'gXy',
-        'ntv':'nXtXv',
-        'my':'mXy',
-        'ty':'tXy',
-        'gr':'gXr',
-        'kr':'kXr',
-        'sn':'sXn',
-        'kl':'kXl',
-        'st':'sXt',
-        'khy':'KXy',
-        'pl':'pXl',
-        'nty':'nXtXy',
-        'hv':'hXv',
-        'sy':'sXy',
-        'dm':'dXm',
-        'khv':'KXv',
-        'ṇy':'NXy',
-        'kv':'kXv'
+        'ḷh':'LVh',
+        'nth':'nVT',
+        'yh':'yVh',
+        'ly':'lVy',
+        'tr':'tVr',
+        'mph':'mVP',
+        'nh':'nVh',
+        'ñch':'YVC',
+        'vh':'vVh',
+        'ṇṭ':'NVW',
+        'nv':'nVv',
+        'ky':'kVy',
+        'gy':'gVy',
+        'ntv':'nVtVv',
+        'my':'mVy',
+        'ty':'tVy',
+        'gr':'gVr',
+        'kr':'kVr',
+        'sn':'sVn',
+        'kl':'kVl',
+        'st':'sVt',
+        'khy':'KVy',
+        'pl':'pVl',
+        'nty':'nVtVy',
+        'hv':'hVv',
+        'sy':'sVy',
+        'dm':'dVm',
+        'khv':'KVv',
+        'ṇy':'NVy',
+        'kv':'kVv'
     };
     const p2i={};
     for (let key in i2p) p2i[i2p[key]]=key;
     for (let key in beginVowels) p2i[beginVowels[key]]=key;
 
-    const convertSyllable=(syl,begin)=>{
+    const convertIASTSyllable=(syl,begin)=>{
         let out='';
         if (isRomanized(syl)) {
             let m=syl.match(/^([kgṅcjñṭḍṇtdnpbylḷhsmrv]*)([aāiīuūeo])(ṃ?)$/);
@@ -125,11 +124,11 @@ var providentpali = (function (exports) {
                 continue;
             }
             const str=parts[j].replace(/ṁ/ig,'ṃ');
-            const words=syllablify(str);
+            const words=breakIASTSyllable(str);
             let s='';
             for (let i=0;i<words.length;i++) {
                 for (let j=0;j<words[i].length;j++) {
-                    const r=convertSyllable(words[i][j]);
+                    const r=convertIASTSyllable(words[i][j]);
                     if (r[0]=='!') return s+r;
                     else s+=r;
                 }
@@ -156,7 +155,10 @@ var providentpali = (function (exports) {
             let needvowel=false;
             while (i<p.length) {
                 ch=p[i];
-                if ('aeiou'.indexOf(ch)>-1) return out+'!'+p.substr(i);
+                
+                //allow sauddesaṁ
+                //if ('aeiou'.indexOf(ch)>-1) return out+'!'+p.substr(i);
+
                 const v='MAEIOU'.indexOf(ch);
                 if (v>-1) {
                     if (v==0&&needvowel) out+='a';
@@ -166,11 +168,12 @@ var providentpali = (function (exports) {
                     i++; 
                     needvowel=false;
                 }  else { 
+                    if (needvowel) out+='a';
                     let cons=p[i];
-                    if (cons=='X') return out+'!1'+p.substr(i); //invalid
+                    if (cons=='V') return out+'!1'+p.substr(i); //invalid
                     
-                    while (i<p.length&& p[i+1]=='X') {
-                        cons+='X'+p[i+2];
+                    while (i<p.length&& p[i+1]=='V') {
+                        cons+='V'+p[i+2];
                         i+=2;
                     }
                     const c=p2i[cons];
@@ -194,9 +197,9 @@ var providentpali = (function (exports) {
                 out+=parts[j];
                 continue;
             }
-            const units=parts[j].split(/([aeiouXBCDFGHJKLNPQRSTVWXYZbcdghjklmnprstuvyAEIOUM]+)/);
+            const units=parts[j].split(/([a-zA-Z]+)/);
             units.forEach(s=>{
-                const m=s.match(/[aeiouXBCDFGHJKLNPQRSTVWXYZbcdghjklmnprstuvyAEIOUM]/);
+                const m=s.match(/[a-zA-Z]/);
                 if (!m) {
                     out+=s;
                 } else {
@@ -208,10 +211,115 @@ var providentpali = (function (exports) {
         return out;
     };
 
-    exports.convertSyllable = convertSyllable;
+    //IPA Transcript from the World Tipitaka Edition 2009
+    const p2e={
+        'a':'a','A':'a:','I':'i','II':'i:','U':'u','UU':'u:','e':'e','o':'o',
+        'aA':'a:','iI':'i:','uU':'u:','E':'e',
+        'k':'k','K':'kh','g':'g','G':'gh','NVk':'Nk','NVK':'Nkh','NVg':'Ng','NVG':'Ngh',
+        'c':'c','C':'ch','j':'J','J':'Jh','Y':'n^', 'y':'j',
+        'W':'t','X':'th','F':'d.','Q':'d.h','N':'n.','r':'r','L':'l.',
+        't':'t[','T':'t[h','d':'d[','D':'d[h','n':'n[','l':'l[','s':'s[',
+        'p':'p','P':'ph','b':'b','B':'bh','m':'m',
+        'v':'v',
+        'M':'~',
+
+    };
+
+    const toESpeak=(str,opts={})=>{
+        let out='';
+        const convert=p=>{
+            let s='',idx=0,needVowel=false;
+            while (idx<p.length) {
+                let sub=p[idx];
+                const v='aeiouMAEIOU'.indexOf(sub);
+                needVowel= (v==-1) ;
+                while (idx<p.length && p2e[sub+p[idx+1]]) {
+                    idx++;
+                    sub+=p[idx];
+                }
+                idx++;
+                
+                if (needVowel && p[idx]&& 'aeiouMEIOU'.indexOf(p[idx])==-1 ) {
+                    s+='a';
+                }
+                s+=p2e[sub];
+                sub='';
+            }
+            return s;
+        };
+
+        const parts=(opts.format==='xml')?str.split(/(<[^<]+>)/):[str];
+        for (let j=0;j<parts.length;j++) {
+            if (parts[j][0]=='<') {
+                out+=parts[j];
+                continue;
+            }
+            const units=parts[j].split(/([aeiouVBCDFGHJKLNPQRSTVWXYZbcdghjklmnprstuvyAEIOUM]+)/);
+            units.forEach(s=>{
+                const m=s.match(/[aeiouVBCDFGHJKLNPQRSTVWXYZbcdghjklmnprstuvyAEIOUM]/);
+                if (!m) {
+                    out+=s;
+                } else {
+                    out+=convert(s);    
+                }
+            });
+        }
+
+        return out;
+    };
+
+    const mapping={
+        'क':'k','ख':'K','ग':'g', 'घ':'G','ङ':'N', 'ह':'h',
+        'च':'c','छ':'C','ज':'j','झ':'J','ञ':'Y','य':'y','श':'Z',
+        'ट':'W','ठ':'X','ड':'F','ढ':'Q','ण':'N','र':'r','ष':'S',
+        'त':'t','थ':'T','द':'d','ध':'D','न':'n','ल':'l','स':'s',
+        'प':'p','फ':'P','ब':'b','भ':'B','म':'m','व':'v','ळ':'L','ं':'M',
+        '॰':'',//use only by pe...
+        'अ':'a','इ':'i','उ':'u','ए':'e','ओ':'o','आ':'aA','ई':'iI','ऊ':'uU','ऐ':'ai','औ':'au',
+        'ा':'A','ि':'I','ी':'II','ु':'U','ू':'UU','े':'E','ो':'O', 
+        '्':'V', //virama , 連接下個輔音。
+        '०':'0','१':'1','२':'2','३':'3','४':'4','५':'5','६':'6','७':'7','८':'8','९':'9',
+        '।':'|','॥':'||',
+        'ौ':'!!au', //invalid in pali
+        'ै' :'!!ai',//invalid in pali
+        'ऋ':'!!R',
+        'ः':'!!H'//visarga, rare
+    };
+
+
+    const fromDevanagari=content=>{
+        const tokens=content.split(/([ऀ-ॿ]+)/);
+        let out='';
+        tokens.forEach(tk => {
+            if (!tk.match(/[ऀ-ॿ]/)) {
+                out+=tk;
+            } else {
+                for (let i=0;i<tk.length;i++) {
+                    const ch=mapping[tk[i]];
+                    if (typeof ch=='undefined') {
+                        console.log('wrong char',tk[i],tk);
+                    } else {
+                        out+=ch;                   
+                    }
+                }
+            }
+        });
+        out=out.replace(/‘‘/g,'“').replace(/’’/g,'”').replace(/\u200d/g,'');
+        return out;
+    };
+
+    const reg_syllable=/([a-zBKGNCDFHJLPQRSTWXYZ](V[a-zKGNCDFHJLPQRSTWXYZ])*[AEIUOM]*)/g;
+    const breakSyllable=str=>{
+        return str.split(reg_syllable);
+    };
+
+    exports.breakIASTSyllable = breakIASTSyllable;
+    exports.breakSyllable = breakSyllable;
+    exports.convertIASTSyllable = convertIASTSyllable;
+    exports.fromDevanagari = fromDevanagari;
     exports.fromIAST = fromIAST;
     exports.isRomanized = isRomanized;
-    exports.syllablify = syllablify;
+    exports.toESpeak = toESpeak;
     exports.toIAST = toIAST;
 
     Object.defineProperty(exports, '__esModule', { value: true });

@@ -1,4 +1,4 @@
-const {fromIAST,toIAST} =window.providentpali;
+const {fromIAST,toIAST,toESpeak} =window.providentpali;
 
 const stockPhrases={
     "itipi so":"‘itipi so bhagavā arahaṃ sammāsambuddho vijjācaraṇasampanno sugato lokavidū anuttaro purisadammasārathi satthā devamanussānaṃ buddho bhagavā’ti;  ‘svākkhāto bhagavatā dhammo, sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti; ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāvakasaṅgho, ñāyappaṭipanno bhagavato sāvakasaṅgho, sāmīcippaṭipanno bhagavato sāvakasaṅgho, yadidaṃ cattāri purisayugāni, aṭṭha purisapuggalā. Esa bhagavato sāvakasaṅgho āhuneyyo pāhuneyyo dakkhiṇeyyo añjalikaraṇīyo, anuttaraṃ puññakkhettaṃ lokassā’ti.",
@@ -38,41 +38,40 @@ const saved=str=>{
 
 const convertFromIAST=str=>{
     const s=fromIAST(str,{format:'xml'});
-    document.getElementById("output").value=s;
+    document.querySelector("#output").value=s;
 
     const r=saved(str);
-    document.getElementById("msg").innerHTML=r+' bytes in UTF-8';
+    document.querySelector("#msg").innerHTML=r+' bytes in UTF-8';
+
+    // document.querySelector("#espeak").value=toESpeak(s);
 }
 const convertFromProvident=str=>{
     const s=toIAST(str,{format:'xml'});
-    document.getElementById("iast").value=s;
+    document.querySelector("#iast").value=s;
 }
+
 const showsutta=key=>{
     if (typeof key!=='string') key=key.target.innerText
     const str=stockPhrases[key];
     if (!str)return;
-    document.getElementById("iast").value=str;
+    document.querySelector("#iast").value=str;
     convertFromIAST(str);
-
-
-
 }
 let timer=0;
 const from_iast=()=>{
     clearTimeout(timer);
     timer=setTimeout(()=>{
-        convertFromIAST(document.getElementById("iast").value)
+        convertFromIAST(document.querySelector("#iast").value);
+
     },200);
 }
 const to_iast=()=>{
     clearTimeout(timer);
     timer=setTimeout(()=>{
-        convertFromProvident(document.getElementById("output").value)
+        convertFromProvident(document.querySelector("#output").value);
     },200);
 }
+
 const init=()=>{
-
-    showsutta("panca sila")
+    showsutta("panca sila");
 }
-
-

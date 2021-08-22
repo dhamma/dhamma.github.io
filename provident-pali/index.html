@@ -17,13 +17,14 @@
         .keys_small{font:1.5rem "Consalas", monospace;background:rgb(255, 252, 204)}
         .noprovident {font: 1.5rem "Sans Serif"; width:100%;height:15rem}
         .iast {font-size: 2rem ;width:100%;}
+        .espeak {font-size: 1rem ;width:100%;}
         .btnsutta {font-size:1.2rem ;padding-top:0.2rem;padding-bottom:0.2rem;}
     </style>
 	
     <script src="../provident-pali.js"></script>
     <script src="ui.js"></script>
 
-    <body onload="init()">
+    <body onload='init()'>
         <label class="labels"><input id="btnfont" type="checkbox" checked onClick="toggleFont()" />
             Provident Pali Font 俭约巴利字体</label> 
         <span class="message" id="msg"></span> <a href="ProvidentPaliSegoe.otf">Download Font 下载字体</a>
@@ -38,9 +39,10 @@
         </span>
     </div>
         <textarea class='iast' id="iast"  rows=5 oninput="from_iast()"></textarea>
+        <!--<textarea class='espeak' id="espeak"  rows=5></textarea>//-->
 
         <h2>Mapping Table 转换表</h2>
-        Vowels and niggahīta as diacritical marks, except at the beginning of a word. 
+        Dependent vowels and niggahīta as diacritical marks, i.e. abugida writing style. 
          <table>
             <tr class="iast_small"><td>IAST</td>
                 <td>ā</td><td>ī</td><td>ū</td>
@@ -56,7 +58,7 @@
                 <td>k</td><td>kA</td><td>kI</td><td>kII</td><td>kU</td><td>kUU</td><td>kE</td><td>kO</td><td>kM</td></tr>
             </tr>
         </table>
-        除单字的开头外，元音以变音符号呈现。
+        依附於辅音的元音、以及鼻辅音ṃ，以变音符号呈现。即「元音附标」书写形态。
         <br/><br/>
         Consanants (ṅ and ṇ share same key code 'N', ṅ and ṃ are not shown as an alphabet) 
         
@@ -73,25 +75,25 @@
                 <td>Keyboard</td>
                 
                 <td>K</td><td>G</td><td>C</td><td>J</td>
-                <td>V</td><td>W</td><td>F</td><td>Q</td><td>Y</td>
+                <td>W</td><td>X</td><td>F</td><td>Q</td><td>Y</td>
                 <td>D</td><td>T</td><td>N</td><td>P</td><td>B</td>
                 <td>L</td>
-                <td>NXk</td><td>NXK</td><td>NXg</td><td>NXG</td>
+                <td>NVk</td><td>NVK</td><td>NVg</td><td>NVG</td>
             </tr>
             
             <tr class="provident_small">
                 <td>provident</td>
                 <td>K</td><td>G</td><td>C</td><td>J</td>
-                <td>V</td><td>W</td><td>F</td><td>Q</td><td>Y</td>
+                <td>W</td><td>X</td><td>F</td><td>Q</td><td>Y</td>
                 <td>D</td><td>T</td><td>N</td><td>P</td><td>B</td>
                 <td>L</td>
-                <td>NXk</td><td>NXK</td><td>NXg</td><td>NXG</td>
+                <td>NVk</td><td>NVK</td><td>NVg</td><td>NVG</td>
             </tr>
         </table>
         ṅ及ṇ共用代码'N', 辅音ṅ及ṃ不以字母形态出现。
         <br/><br/>
-        Sequence of consanants must be separated by 'X' to construct a ligature. 
-<br/>For unknown sequence, a small + is placed in between. <span class="keys_small">gXt</span> => <span class="provident_small">gXt</span>
+        Sequence of consanants must be separated by 'V'  (virama) to construct a ligature. 
+<br/>For unknown sequence, a small + is placed in between. <span class="keys_small">gVt</span> => <span class="provident_small">gVt</span>
         <table>
             <tr class="iast_small"><td>IAST</td>
                 <td>kkha</td><td>ggha</td><td>ccha</td>
@@ -101,20 +103,20 @@
             </tr>
             <tr class="keys_small">
                 <td>Keyboard</td>
-                <td>kXK</td><td>gXG</td><td>cXC</td>
-                <td>jXJ</td><td>VXV</td><td>VXW</td><td>FXF</td><td>FXQ</td>
-                <td>YXY</td><td>dXD</td><td>tXT</td><td>NXN</td>
-                <td>pXP</td><td>bXB</td>
+                <td>kVK</td><td>gVG</td><td>cVC</td>
+                <td>jVJ</td><td>VVV</td><td>VVW</td><td>FVF</td><td>FVQ</td>
+                <td>YVY</td><td>dVD</td><td>tVT</td><td>NVN</td>
+                <td>pVP</td><td>bVB</td>
                 <tr class="provident_small">
                 <td>provident</td>
-                <td>kXK</td><td>gXG</td><td>cXC</td>
-                <td>jXJ</td><td>VXV</td><td>VXW</td><td>FXF</td><td>FXQ</td>
-                <td>YXY</td><td>dXD</td><td>tXT</td><td>NXN</td>
-                <td>pXP</td><td>bXB</td>
+                <td>kVK</td><td>gVG</td><td>cVC</td>
+                <td>jVJ</td><td>VVV</td><td>VVW</td><td>FVF</td><td>FVQ</td>
+                <td>YVY</td><td>dVD</td><td>tVT</td><td>NVN</td>
+                <td>pVP</td><td>bVB</td>
             </tr>
         </table>
-        连续辅音必须以X隔开，以形成合字。
-        <br/>如果不是字体能够识别的的连音，X会变成小号的 +，例<span class="keys_small">gXt</span> =><span class="provident_small">gXt</span>
+        连续辅音必须以V (virama)隔开，以形成合字。
+        <br/>如果不是字体能够识别的的连音，V会变成小号的 +，例<span class="keys_small">gVt</span> =><span class="provident_small">gVt</span>
         <br/><br/>
         Syllables are more cohesive, taking less brain power to scan and parse. 
         No more ambiguity between "ha" and other aspirating alphabets, 
@@ -126,10 +128,10 @@
             </tr>
             <tr class="keys_small">
                 <td>Keyboard</td>
-                <td>bUdXDM</td><td>DmXmM</td><td>sNXGM</td><td>avXyAkt</td><td>pWmM JAnM</td><td>sOtApnXn</td>
+                <td>bUdVDM</td><td>DmVmM</td><td>sNVGM</td><td>avVyAkt</td><td>pWmM JAnM</td><td>sOtApnVn</td>
             <tr class="provident_small">
                 <td>provident</td>
-                <td>bUdXDM</td><td>DmXmM</td><td>sNXGM</td><td>avXyAkt</td><td>pWmM JAnM</td><td>sOtApnXn</td>
+                <td>bUdVDM</td><td>DmVmM</td><td>sNVGM</td><td>avVyAkt</td><td>pWmM JAnM</td><td>sOtApnVn</td>
             </tr>
         </table>
         字母与音节的对应清楚，识别更省力。"ha" 也不再会和其他送气音搞混。
@@ -138,7 +140,7 @@
         
         </table>
 
-        <a href="https://github.com/dhamma/provident-pali" target_new>Source Code on Github 源代码及中文说明</a> 
+        <a href="https://github.com/dhamma/provident-pali" target=_new>Source Code on Github 源代码及中文说明</a> 
         
     </body>
 </html>
