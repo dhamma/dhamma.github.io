@@ -61,9 +61,8 @@ let _lang='ro';
 const toScript=lang=>{
     if (typeof lang!=='string') lang=lang.target.attributes.lang.value;
     const ppf=document.querySelector("#output").value;
-    const out=toIndic(ppf,lang);
-    document.querySelector("#iast").value= out;
-    if (out!==ppf) _lang=lang;
+    _lang=lang;
+    convertFromProvident(ppf);
 }
 let timer=0;
 const from_iast=()=>{
