@@ -1,6 +1,6 @@
 const {toIndic,fromIAST,toIAST} =window.providentpali;
 const stockPhrases={
-    "itipi so":"‘itipi so bhagavā arahaṃ sammāsambuddho vijjācaraṇasampanno sugato lokavidū anuttaro purisadammasārathi satthā devamanussānaṃ buddho bhagavā’ti;  ‘svākkhāto bhagavatā dhammo, sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti; ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāvakasaṅgho, ñāyappaṭipanno bhagavato sāvakasaṅgho, sāmīcippaṭipanno bhagavato sāvakasaṅgho, yadidaṃ cattāri purisayugāni, aṭṭha purisapuggalā. Esa bhagavato sāvakasaṅgho āhuneyyo pāhuneyyo dakkhiṇeyyo añjalikaraṇīyo, anuttaraṃ puññakkhettaṃ lokassā’ti.",
+    "itipi so":"itipi so bhagavā arahaṃ sammāsambuddho vijjācaraṇasampanno sugato lokavidū anuttaro purisadammasārathi satthā devamanussānaṃ buddho bhagavā'ti;  svākkhāto bhagavatā dhammo, sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti; ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāvakasaṅgho, ñāyappaṭipanno bhagavato sāvakasaṅgho, sāmīcippaṭipanno bhagavato sāvakasaṅgho, yadidaṃ cattāri purisayugāni, aṭṭha purisapuggalā. Esa bhagavato sāvakasaṅgho āhuneyyo pāhuneyyo dakkhiṇeyyo añjalikaraṇīyo, anuttaraṃ puññakkhettaṃ lokassā’ti.",
     "evam me sutam":"evaṃ me sutaṃ – ekaṃ samayaṃ bhagavā sāvatthiyaṃ viharati jetavane anāthapiṇḍikassa ārāme.",
     "saranam":"Buddhaṃ saraṇaṃ gacchāmi; Dhammaṃ saraṇaṃ gacchāmi; Saṅghaṃ saraṇaṃ gacchāmi. \nDutiyampi buddhaṃ saraṇaṃ gacchāmi; Dutiyampi dhammaṃ saraṇaṃ gacchāmi; Dutiyampi saṅghaṃ saraṇaṃ gacchāmi. \nTatiyampi buddhaṃ saraṇaṃ gacchāmi; Tatiyampi dhammaṃ saraṇaṃ gacchāmi; Tatiyampi saṅghaṃ saraṇaṃ gacchāmi.",
     'panca sila':`Pāṇātipātā veramaṇī-sikkhāpadaṃ  samādiyāmi.
@@ -45,7 +45,7 @@ const convertFromIAST=str=>{
     // document.querySelector("#espeak").value=toESpeak(s);
 }
 const convertFromProvident=str=>{
-    const s=toIAST(str,{format:'xml'});
+    const s=(_lang=='ro')?toIAST(str,{format:'xml'}):toIndic(str,_lang);
     document.querySelector("#iast").value=s;
 }
 let suttaid='';
@@ -57,15 +57,13 @@ const showsutta=key=>{
     document.querySelector("#iast").value=str;
     convertFromIAST(str);
 }
+let _lang='ro';
 const toScript=lang=>{
     if (typeof lang!=='string') lang=lang.target.attributes.lang.value;
-    if (lang=='ro') {
-        document.querySelector("#iast").value=stockPhrases[suttaid];
-        convertFromIAST(stockPhrases[suttaid]);
-        return;
-    }
-    const s=fromIAST(stockPhrases[suttaid],{format:'xml'});
-    document.querySelector("#iast").value= toIndic(s,lang);
+    const ppf=document.querySelector("#output").value;
+    const out=toIndic(ppf,lang);
+    document.querySelector("#iast").value= out;
+    if (out!==ppf) _lang=lang;
 }
 let timer=0;
 const from_iast=()=>{
