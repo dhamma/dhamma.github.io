@@ -1,5 +1,4 @@
-const {fromIAST,toIAST,toESpeak} =window.providentpali;
-
+const {toIndic,fromIAST,toIAST} =window.providentpali;
 const stockPhrases={
     "itipi so":"‘itipi so bhagavā arahaṃ sammāsambuddho vijjācaraṇasampanno sugato lokavidū anuttaro purisadammasārathi satthā devamanussānaṃ buddho bhagavā’ti;  ‘svākkhāto bhagavatā dhammo, sandiṭṭhiko akāliko ehipassiko opaneyyiko paccattaṃ veditabbo viññūhī’ti; ‘suppaṭipanno bhagavato sāvakasaṅgho, ujuppaṭipanno bhagavato sāvakasaṅgho, ñāyappaṭipanno bhagavato sāvakasaṅgho, sāmīcippaṭipanno bhagavato sāvakasaṅgho, yadidaṃ cattāri purisayugāni, aṭṭha purisapuggalā. Esa bhagavato sāvakasaṅgho āhuneyyo pāhuneyyo dakkhiṇeyyo añjalikaraṇīyo, anuttaraṃ puññakkhettaṃ lokassā’ti.",
     "evam me sutam":"evaṃ me sutaṃ – ekaṃ samayaṃ bhagavā sāvatthiyaṃ viharati jetavane anāthapiṇḍikassa ārāme.",
@@ -49,13 +48,24 @@ const convertFromProvident=str=>{
     const s=toIAST(str,{format:'xml'});
     document.querySelector("#iast").value=s;
 }
-
+let suttaid='';
 const showsutta=key=>{
     if (typeof key!=='string') key=key.target.innerText
     const str=stockPhrases[key];
     if (!str)return;
+    suttaid=key;
     document.querySelector("#iast").value=str;
     convertFromIAST(str);
+}
+const toScript=lang=>{
+    if (typeof lang!=='string') lang=lang.target.attributes.lang.value;
+    if (lang=='ro') {
+        document.querySelector("#iast").value=stockPhrases[suttaid];
+        convertFromIAST(stockPhrases[suttaid]);
+        return;
+    }
+    const s=fromIAST(stockPhrases[suttaid],{format:'xml'});
+    document.querySelector("#iast").value= toIndic(s,lang);
 }
 let timer=0;
 const from_iast=()=>{

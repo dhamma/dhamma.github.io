@@ -25,7 +25,7 @@
     <script src="ui.js"></script>
 
     <body onload='init()'>
-        <label class="labels"><input id="btnfont" type="checkbox" checked onClick="toggleFont()" />
+        <label class="labels">
             Provident Pali Font 俭约巴利字体</label> 
         <span class="message" id="msg"></span> <a href="ProvidentPaliSegoe.otf">Download Font 下载字体</a>
         <textarea class='provident' id="output" rows=5 oninput="to_iast()"></textarea>
@@ -40,7 +40,18 @@
     </div>
         <textarea class='iast' id="iast"  rows=5 oninput="from_iast()"></textarea>
         <!--<textarea class='espeak' id="espeak"  rows=5></textarea>//-->
-
+        <div style="height:1rem;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+        <button title='international sanskrit transliteration' lang='ro' onClick="toScript(event)">IAST</button>
+        <button title='缅 myanmar' lang='my' onClick="toScript(event)">ဗမာစာ</button>
+        <button title='泰 thai' lang='th' onClick="toScript(event)">ไทย</button>
+        <button title='老挝 lao' lang='lo' onClick="toScript(event)">ລາວ</button>
+        <button title='柬埔寨 khmer' lang='km' onClick="toScript(event)">ភាសាខ្មែរ</button>
+        <!-- <button title='俄 Cyrillic' lang='cy' onClick="toScript(event)">кириллица</button> -->
+        <button title='天城体 devanagari' lang='hi' onClick="toScript(event)">हिन्दी</button>
+        <button title='斯里兰卡 sinhala' lang='si' onClick="toScript(event)">සිංහල</button>
+        <button title='藏 tibetan' lang='tb' onClick="toScript(event)">བོད་སྐད།</button>
+        <button title='按键 keyboard'lang='pv' onClick="toScript(event)">Provident Ascii Input</button>
+    </div>
         <h2>Mapping Table 转换表</h2>
         Dependent vowels and niggahīta as diacritical marks, i.e. abugida writing style. 
          <table>
